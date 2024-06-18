@@ -51,7 +51,7 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     print("gpu_burn has completed.")
     bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
     bdf_read = bdf_read.split('\n')
-    bdf_read = [line.split(':')[1] for line in bdf_read]
+    bdf_read = [line.split(':')[1:] for line in bdf_read]
     print(bdf_read)
     with open("output.txt","w") as file:
         file.write(bdf_read + '\n\n')
