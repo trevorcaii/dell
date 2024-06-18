@@ -53,7 +53,7 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
     bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
     bdf_read = bdf_read.split('\n')
     bdf_read = [":".join(line.split(':')[1:]) for line in bdf_read]
-    with open("/home/dell/Desktop/output.txt","w") as file:
+    with open("output.txt","w") as file:
         for gpu_index_tag, bdf in enumerate(bdf_read): file.write(f"GPU {gpu_index_tag}: " + bdf + "\n")
         for line in replay_count: file.write(line.strip())
 
