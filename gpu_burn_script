@@ -19,10 +19,10 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     if(gpu_index != -1):
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
         print("found gpuindex")
-        nvidia_smi_congif = f"echo -e \"GPU {gpu_index}: \n$(nvidia-smi -i {gpu_index} -q|grep -i replay)\""
+        nvidia_smi_congig = f"echo -e \"GPU {gpu_index}: \n$(nvidia-smi -i {gpu_index} -q|grep -i replay)\""
     else:
         print("no gpuindex")
-        nvidia_smi_congif = f"for i in {{0..{gpu_number}}}; do echo -e \"GPU $i: \n$(nvidia-smi -i $i -q|grep -i replay)\""
+        nvidia_smi_congig = f"for i in {{0..{gpu_number}}}; do echo -e \"GPU $i: \n$(nvidia-smi -i $i -q|grep -i replay)\""
     try:
         print("starting gpu_burn")
         gpu_process = subprocess.Popen(['./gpu_burn', '>', '/dev/null'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -32,7 +32,7 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
 
     # Periodically execute another command while './gpu_burn' is running
     while gpu_process.poll() is None:
-        replay_count = execute_shell_command(nvidia_smi_congif)
+        replay_count = execute_shell_command(nvidia_smi_congig)
         print(replay_count)
         time.sleep(call_time) 
 
