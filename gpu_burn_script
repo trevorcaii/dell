@@ -1,4 +1,5 @@
 import subprocess
+from datetime import datetime
 import time
 
 def execute_shell_command(command):
@@ -19,13 +20,11 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     
     if(gpu_index != -1):
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
-        print("found gpuindex")
         nvidia_smi_congig = f"echo -e \"GPU {gpu_index}: \n$(nvidia-smi -i {gpu_index} -q|grep -i replay)\""
     else:
-        print("no gpuindex")
         nvidia_smi_congig = f"for i in {{0..{gpu_number}}}; do echo -e \"GPU $i: \n$(nvidia-smi -i $i -q|grep -i replay)\""
     try:
-        print("starting gpu_burn")
+        print("Starting gpu_burn...")
         gpu_process = subprocess.Popen(['./gpu_burn', '>', '/dev/null'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print("running in background")
     except Exception as e:
@@ -34,8 +33,8 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     # Periodically execute another command while './gpu_burn' is running
     while gpu_process.poll() is None:
         replay_count = execute_shell_command(nvidia_smi_congig)
-        current_timestamp = time.time()
-        print("Timestamp:", current_timestamp)
+        now = datetime.now()
+        print("Current Timestamp:", now)
         print(replay_count)
         time.sleep(call_time) 
 
