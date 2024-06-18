@@ -39,7 +39,7 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     print("gpu_burn has completed.")
 
 def main():
-    check_replay(gpu_number=4)
+    check_replay(gpu_index=0)
 
 if __name__ == "__main__":
     main()
