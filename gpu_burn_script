@@ -4,12 +4,13 @@ import time
 def execute_shell_command(command):
     try:
         # Execute the shell command
-        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if result.returncode == 0:
             # Successful execution
-            return result
+            return result.stdout.decode("utf-8").strip()  # Decode bytes to string
         else:
-            return f"Error: {result}"
+            # Error occurredhttps://github.com/manunicholasjacob/Testing/blob/main/getbdf2
+            return f"Error: {result.stderr.decode('utf-8').strip()}"  # Decode bytes to string
     except Exception as e:
         return f"Error: {str(e)}"
 
