@@ -31,7 +31,7 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
 
     # Periodically execute another command while './gpu_burn' is running
     while gpu_process.poll() is None:
-        replay_count = execute_shell_command(nvidia_smi_congig)
+        replay_count = execute_shell_command("nvidia-smi -q|grep -i replay")
         print(replay_count)
         time.sleep(call_time) 
 
