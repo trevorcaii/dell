@@ -32,3 +32,9 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
 
     # 'gpu_burn' has finished; you can perform any cleanup or final actions here
     print("gpu_burn has completed.")
+
+def main():
+    check_replay()
+
+if __name__ == "__main__":
+    main()
