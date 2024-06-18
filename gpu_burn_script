@@ -26,6 +26,7 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
         return f"Error: {str(e)}"
 
     # Periodically execute another command while './gpu_burn' is running
+    replay_count = ""
     while gpu_process.poll() is None:
         if(gpu_index != -1):
             now = datetime.now()
