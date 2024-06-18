@@ -52,9 +52,9 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
     bdf_read = bdf_read.split('\n')
     bdf_read = [":".join(line.split(':')[1:]) for line in bdf_read]
-    print(bdf_read)
     with open("output.txt","w") as file:
-        for gpu_index_tag, bdf in enumerate(bdf_read): file.write(f"GPU {gpu_index_tag}: " + bdf + "\n\n")
+        for gpu_index_tag, bdf in enumerate(bdf_read): file.write(f"GPU {gpu_index_tag}: " + bdf + "\n")
+        for line in replay_count: file.write(line.strip())
 
 def main():
     check_replay(gpu_number=4)
