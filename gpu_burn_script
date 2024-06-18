@@ -17,11 +17,15 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     
     if(gpu_index != -1):
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
+        print("found gpuindex")
         nvidia_smi_congif = "echo -e \"GPU {gpu_index}: \n$(nvidia-smi -i {gpu_index} -q|grep -i replay)\""
     else:
+        print("no gpuindex")
         nvidia_smi_congif = "for i in {{0..{gpu_number}}}; do echo -e \"GPU $i: \n$(nvidia-smi -i $i -q|grep -i replay)\""
     try:
+        print("starting gpu_burn")
         gpu_process = subprocess.Popen(['/home/NVIDIA/gpu_burn-1.1/gpu_burn/gpu_burn', '>', '/dev/null'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("running in background")
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -35,7 +39,6 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
     print("gpu_burn has completed.")
 
 def main():
-    print("test test test")
     check_replay(gpu_number=4)
 
 if __name__ == "__main__":
