@@ -32,7 +32,8 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
             print("Current Timestamp:", now)
             print(f"GPU {gpu_index}:")
             replay_count = execute_shell_command(f"nvidia-smi -i {gpu_index} -q|grep -i replay")
-            print(replay_count)
+            replay_count = replay_count.split("\n")
+            print(line for line in replay_count)
             time.sleep(call_time) 
         else:
             now = datetime.now()
@@ -40,7 +41,8 @@ def check_replay(gpu_number = 0, gpu_index = -1, call_time = 0.5):
             for i in range(gpu_number):
                 print(f"GPU {i}:")
                 replay_count = execute_shell_command(f"nvidia-smi -i {i} -q|grep -i replay")
-                print(replay_count)
+                replay_count = replay_count.split("\n")
+                print(line for line in replay_count)
             time.sleep(call_time) 
 
     # 'gpu_burn' has finished; you can perform any cleanup or final actions here
