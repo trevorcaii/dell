@@ -70,7 +70,7 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
         file.write(stdout.decode("utf-8"))
 
 def main():
-    check_replay(burn_time = 10, gpu_number=4, call_time=5)
+    check_replay(burn_time = 10, gpu_number=4, call_time=1)
 
 if __name__ == "__main__":
     main()
