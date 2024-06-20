@@ -19,8 +19,8 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
     try:
         print("Starting gpu_burn...")
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs || , '>', '/dev/null'
-        gpuBurnTerminal = execute_shell_command("gnome-terminal -- tty")
-        print(f"{gpuBurnTerminal}")
+        # gpuBurnTerminal = execute_shell_command("gnome-terminal")
+        subprocess.run(["gnome-terminal"])
         gpu_process = subprocess.Popen([f'./gpu_burn –d –m {gpu_percentage}% {burn_time}', '>', f'{gpuBurnTerminal}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print("running in background")
     except Exception as e:
