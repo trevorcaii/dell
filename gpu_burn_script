@@ -1,6 +1,7 @@
 import subprocess
 from datetime import datetime
 import time
+import os
 
 def execute_shell_command(command):
     try:
@@ -30,7 +31,7 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
     # Periodically execute another command while './gpu_burn' is running
     replay_count = ""
     while gpu_process.poll() is None:
-        execute_shell_command("clear")
+        os.system('clear')
         if(gpu_index != -1):
             now = datetime.now()
             print("Current Timestamp:", now)
@@ -38,8 +39,6 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
             replay_count = execute_shell_command(f"nvidia-smi -i {gpu_index} -q|grep -i replay")
             replay_count = replay_count.split("\n")
             for line in replay_count: print(line.strip())
-            print()
-            time.sleep(call_time) 
         else:
             now = datetime.now()
             print("Current Timestamp:", now)
@@ -48,8 +47,8 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
                 replay_count = execute_shell_command(f"nvidia-smi -i {i} -q|grep -i replay")
                 replay_count = replay_count.split("\n")
                 for line in replay_count: print(line.strip())
-            print()
-            time.sleep(call_time) 
+        print()
+        time.sleep(call_time) 
 
     # 'gpu_burn' has finished; you can perform any cleanup or final actions here
     print("gpu_burn has completed.")
