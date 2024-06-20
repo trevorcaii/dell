@@ -1,0 +1,30 @@
+import curses
+import os
+
+def main(stdscr):
+    curses.echo()
+    
+    stdscr.addstr(0, 0, "Enter your password (sudo access): ")
+    user_password = stdscr.getstr().decode()
+
+    stdscr.addstr(1, 0, "Number of Loops: ")
+    inputnum_loops = int(stdscr.getstr().decode())
+
+    stdscr.addstr(2, 0, "Do you want to kill on error? (y/n): ")
+    kill = stdscr.getstr().decode()
+
+    stdscr.addstr(3, 0, "Choose slot numbers to test (comma separated): ")
+    slot_input = stdscr.getstr().decode()
+    slotlist = list(map(int, slot_input.split(',')))
+
+    stdscr.clear()
+    stdscr.addstr(0, 0, "Starting the test with the following parameters:\n")
+    stdscr.addstr(1, 0, f"Password: {'*' * len(user_password)}\n")
+    stdscr.addstr(2, 0, f"Number of Loops: {inputnum_loops}\n")
+    stdscr.addstr(3, 0, f"Kill on error: {kill}\n")
+    stdscr.addstr(4, 0, f"Slot numbers to test: {slotlist}\n")
+    stdscr.refresh()
+    stdscr.addstr(6, 0, "Press any key to continue...\n")
+    stdscr.getch()
+
+curses.wrapper(main)
