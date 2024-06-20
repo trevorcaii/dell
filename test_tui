@@ -7,6 +7,9 @@ def main(stdscr):
     stdscr.addstr(0, 0, "Enter your password (sudo access): ")
     user_password = stdscr.getstr().decode()
 
+    folder_path = input("Please enter the path of your folder: ")
+    fil_list = os.listdir(folder_path)
+
     stdscr.addstr(1, 0, "Number of Loops: ")
     inputnum_loops = int(stdscr.getstr().decode())
 
