@@ -106,6 +106,10 @@ def read_slot_capabilities(bdf):
         return slot_capabilities_output.decode().strip()
     except subprocess.CalledProcessError:
         return None
+    
+def hex_to_binary(hex_string):
+    binary_string = format(int(hex_string, 16), '032b')
+    return binary_string
 
 def gpu_traverse_up(gpu_bdf_list):
     all_bdf_list = get_bdf_list()
@@ -140,6 +144,8 @@ def gpu_traverse_up(gpu_bdf_list):
                 print(bin(int(slot_capabilities,16))[-13:])
                 slot_number = int((bin(int(slot_capabilities,16))[-13:])[::-1], 2)
                 print("slot number: " + f"{slot_number}")
+                slot_number = int(hex_to_binary(slot_capabilities), 2)
+                print(slot_number)
 
                 print(slot_number)
 
