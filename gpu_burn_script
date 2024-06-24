@@ -1,7 +1,6 @@
 import subprocess
 from datetime import datetime
 import time
-import numpy as np
 
 def execute_shell_command(command):
     try:
@@ -17,7 +16,7 @@ def execute_shell_command(command):
         return f"Error: {str(e)}"
 
 
-def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_index = [], call_time = 0.5):
+def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_index = [], call_time = 10):
     try:
         print("Starting gpu_burn...")
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
@@ -72,9 +71,76 @@ def check_replay(gpu_percentage = 95, burn_time = 3600, gpu_number = 0, gpu_inde
     stdout, stderr = gpu_process.communicate()
     with open("/home/dell/Desktop/gpu_burn_output", "w") as file:
         file.write(stdout.decode("utf-8"))
+def run_command(command):
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = result.communicate()
+    if result.returncode != 0:
+        raise Exception(f"Command failed with error: {stderr.decode('utf-8')}")
+    return stdout.decode('utf-8')
+
+def get_bdf_list():
+    """ Get a list of all BDFs using lspci. """
+    output = run_command("lspci")
+    bdf_list = [line.split()[0] for line in output.splitlines()]
+    return bdf_list
+
+def get_vendor_bdf_list(vendor_id):
+    """ Get a list of BDFs for a specific vendor using lspci. """
+    output = run_command(f"lspci -d {vendor_id}:")
+    vendor_bdf_list = [line.split()[0] for line in output.splitlines()]
+    return vendor_bdf_list
+
+def get_header_type(bdf):
+    
+    header_type = run_command(f"setpci -s {bdf} HEADER_TYPE")
+    return header_type.strip()
+
+def get_secondary_bus_number(bdf):
+    """ Get the secondary bus number for a given BDF using setpci. """
+    secondary_bus_number = run_command(f"setpci -s {bdf} SECONDARY_BUS")
+    return secondary_bus_number.strip()
+
+def read_slot_capabilities(bdf):
+    try:
+        slot_capabilities_output = subprocess.check_output(["setpci", "-s", bdf, "CAP_EXP+0X14.l"])
+        return slot_capabilities_output.decode().strip()
+    except subprocess.CalledProcessError:
+        return None
+
+def gpu_traverse_up(gpu_bdf_list):
+    all_bdf_list = get_bdf_list()
+    header_bdf_list = [bdf for bdf in all_bdf_list if get_header_type(bdf).startswith("01")]
+    physical_slot_numbers = []
+    for i, gpu_bdf in enumerate(gpu_bdf_list):
+        # get the bus for the gpu to compare to secondary bus number
+        current_bus = gpu_bdf.split(":")[0]
+        port_found = False
+        # keep traversing up the tree until a valid physical port number is found
+        while(not port_found):
+            upstream_connection = (bdf for bdf in header_bdf_list if get_secondary_bus_number(bdf) == current_bus)
+
+            if not any(upstream_connection): 
+                break
+
+            slot_capabilities = read_slot_capabilities(upstream_connection)
+            slot_number = int(slot_capabilities[:14], 2)
+
+            print(slot_number)
+
+            if(slot_number in range(21,29)):
+                physical_slot_numbers.append(slot_number)
+                port_found = True
+            else:
+                current_bus = upstream_connection.split(":")[0]
+        
+        if(not port_found):
+            physical_slot_numbers.append(-1)
+
+    return physical_slot_numbers
 
 def main():
     check_replay(burn_time=10, gpu_index=[0,2])
+    print(gpu_traverse_up())
 
 if __name__ == "__main__":
     main()
