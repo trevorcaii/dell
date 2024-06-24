@@ -111,7 +111,11 @@ def hex_to_binary(hex_string):
     binary_string = format(int(hex_string, 16), '032b')
     return binary_string
 
-def gpu_traverse_up(gpu_bdf_list):
+def gpu_traverse_up():
+    bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
+    bdf_read = bdf_read.split('\n')
+    bdf_read = [":".join(line.split(':')[1:]) for line in bdf_read]
+    gpu_bdf_list = bdf_read
     all_bdf_list = get_bdf_list()
     header_bdf_list = [bdf for bdf in all_bdf_list if get_header_type(bdf).startswith("01")]
     physical_slot_numbers = []
@@ -159,7 +163,7 @@ def gpu_traverse_up(gpu_bdf_list):
 
 def main():
     # check_replay(burn_time=10, gpu_index=[0,2])
-    print(gpu_traverse_up(["18:00.0","86:00.0"]))
+    print(gpu_traverse_up())
 
 if __name__ == "__main__":
     main()
