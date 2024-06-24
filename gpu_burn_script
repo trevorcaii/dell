@@ -126,7 +126,7 @@ def gpu_traverse_up(gpu_bdf_list):
             else:
                 print(upstream_connection)
                 slot_capabilities = read_slot_capabilities(upstream_connection)
-                slot_number = int(slot_capabilities[:14], 2)
+                slot_number = int((bin(slot_capabilities)[2:])[:13], 2)
 
                 print(slot_number)
 
@@ -142,7 +142,7 @@ def gpu_traverse_up(gpu_bdf_list):
     return physical_slot_numbers
 
 def main():
-    check_replay(burn_time=10, gpu_index=[0,2])
+    # check_replay(burn_time=10, gpu_index=[0,2])
     print(gpu_traverse_up(["18:00.0","86:00.0"]))
 
 if __name__ == "__main__":
