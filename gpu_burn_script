@@ -129,7 +129,7 @@ def gpu_traverse_up(gpu_bdf_list):
                 print(slot_capabilities)
                 print(type(slot_capabilities))
                 print(bin(int(slot_capabilities,16))[2:])
-                print((bin(slot_capabilities)[2:])[:13])
+                print(bin(int(slot_capabilities,16))[2:15])
                 slot_number = int((bin(slot_capabilities)[2:])[:13], 2)
 
                 print(slot_number)
