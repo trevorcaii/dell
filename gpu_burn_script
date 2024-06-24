@@ -142,8 +142,8 @@ def gpu_traverse_up(gpu_bdf_list):
                 slot_number = int(hex_to_binary(slot_capabilities)[:13], 2)
 
                 print(f"slot_number: {slot_number}")
-
-            if(slot_number in range(21,29)):
+#21,29
+            if(slot_number in range(4,8)):
                 physical_slot_numbers.append(slot_number)
                 port_found = True
             else:
