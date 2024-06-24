@@ -128,7 +128,7 @@ def gpu_traverse_up(gpu_bdf_list):
                 slot_capabilities = read_slot_capabilities(upstream_connection)
                 print(slot_capabilities)
                 print(type(slot_capabilities))
-                print(bin(slot_capabilities)[2:])
+                print(bin(int(slot_capabilities,16))[2:])
                 print((bin(slot_capabilities)[2:])[:13])
                 slot_number = int((bin(slot_capabilities)[2:])[:13], 2)
 
