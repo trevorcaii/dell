@@ -124,8 +124,10 @@ def gpu_traverse_up(gpu_bdf_list):
             if not any(upstream_connection): 
                 break
             else:
-                print(upstream_connection)
+                print("Upstream Connection: " + f"{upstream_connection}")
                 slot_capabilities = read_slot_capabilities(upstream_connection)
+                print(slot_capabilities)
+                print(type(slot_capabilities))
                 slot_number = int((bin(slot_capabilities)[2:])[:13], 2)
 
                 print(slot_number)
