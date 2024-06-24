@@ -134,7 +134,7 @@ def gpu_traverse_up(gpu_bdf_list):
                 # Convert from hex to binary to decimal
                 print(int(slot_capabilities, 16))
                 print(bin(int(slot_capabilities,16))[2:])
-                print(int(bin(int(slot_capabilities,16))[-13:], 2))
+                print(bin(int(slot_capabilities,16))[-13:])
                 slot_number = int(bin(int(slot_capabilities,16))[-13:], 2)
                 print("slot number: " + f"{slot_number}")
 
@@ -146,7 +146,7 @@ def gpu_traverse_up(gpu_bdf_list):
             else:
                 print("valid slot number did not pass")
                 current_bus = upstream_connection.split(":")[0]
-                upstream_connection = None
+                del upstream_connection
         
         if(not port_found):
             physical_slot_numbers.append(-1)
