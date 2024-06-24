@@ -126,7 +126,8 @@ def gpu_traverse_up(gpu_bdf_list):
                 if get_secondary_bus_number(bdf) == current_bus:
                     upstream_connection = bdf 
 
-            if upstream_connection is None: 
+            if upstream_connection is None:
+                print(f"did not find a port with secondary bus as {current_bus}") 
                 break
 
             else:
