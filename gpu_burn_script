@@ -126,11 +126,10 @@ def gpu_traverse_up(gpu_bdf_list):
             else:
                 print("Upstream Connection: " + f"{upstream_connection}")
                 slot_capabilities = read_slot_capabilities(upstream_connection)
-                print(slot_capabilities)
-                print(type(slot_capabilities))
-                print(bin(int(slot_capabilities,16))[2:])
-                print(bin(int(slot_capabilities,16))[2:15])
-                slot_number = int((bin(slot_capabilities)[2:])[:13], 2)
+                # Extract the physical slot number from slot capabilities bits [31:19]
+                # Convert from hex to binary to decimal
+                slot_number = int(bin(int(slot_capabilities,16))[2:15], 2)
+                print("slot number: " + f"{slot_number}")
 
                 print(slot_number)
 
