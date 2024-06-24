@@ -132,6 +132,9 @@ def gpu_traverse_up(gpu_bdf_list):
                 slot_capabilities = read_slot_capabilities(upstream_connection)
                 # Extract the physical slot number from slot capabilities bits [31:19]
                 # Convert from hex to binary to decimal
+                print(int(slot_capabilities, 16))
+                print(bin(int(slot_capabilities,16))[2:])
+                print(int(bin(int(slot_capabilities,16))[-13:], 2))
                 slot_number = int(bin(int(slot_capabilities,16))[-13:], 2)
                 print("slot number: " + f"{slot_number}")
 
@@ -141,7 +144,9 @@ def gpu_traverse_up(gpu_bdf_list):
                 physical_slot_numbers.append(slot_number)
                 port_found = True
             else:
+                print("valid slot number did not pass")
                 current_bus = upstream_connection.split(":")[0]
+                upstream_connection = None
         
         if(not port_found):
             physical_slot_numbers.append(-1)
