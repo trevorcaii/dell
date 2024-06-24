@@ -115,8 +115,12 @@ def gpu_traverse_up(gpu_bdf_list):
         # get the bus for the gpu to compare to secondary bus number
         current_bus = gpu_bdf.split(":")[0]
         port_found = False
+
+        print(f"starting {i} GPU")
+
         # keep traversing up the tree until a valid physical port number is found
         while(not port_found):
+            print(f"current bus: {current_bus}")
             for bdf in header_bdf_list:
                 if get_secondary_bus_number(bdf) == current_bus:
                     upstream_connection = bdf 
@@ -128,7 +132,7 @@ def gpu_traverse_up(gpu_bdf_list):
                 slot_capabilities = read_slot_capabilities(upstream_connection)
                 # Extract the physical slot number from slot capabilities bits [31:19]
                 # Convert from hex to binary to decimal
-                slot_number = int(bin(int(slot_capabilities,16))[2:15], 2)
+                slot_number = int(bin(int(slot_capabilities,16))[-13:], 2)
                 print("slot number: " + f"{slot_number}")
 
                 print(slot_number)
