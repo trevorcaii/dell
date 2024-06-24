@@ -115,15 +115,17 @@ def gpu_traverse_up(gpu_bdf_list):
     all_bdf_list = get_bdf_list()
     header_bdf_list = [bdf for bdf in all_bdf_list if get_header_type(bdf).startswith("01")]
     physical_slot_numbers = []
+    root_ports = []
     for i, gpu_bdf in enumerate(gpu_bdf_list):
         # get the bus for the gpu to compare to secondary bus number
         current_bus = gpu_bdf.split(":")[0]
+        current_bdf = gpu_bdf
         port_found = False
-
+        root_port_found = False
         print(f"starting {i} GPU")
 
         # keep traversing up the tree until a valid physical port number is found
-        while(not port_found):
+        while(not port_found and not root_port_found):
             print(f"current bus: {current_bus}")
             upstream_connection = None
             for bdf in header_bdf_list:
@@ -131,9 +133,10 @@ def gpu_traverse_up(gpu_bdf_list):
                     upstream_connection = bdf 
 
             if upstream_connection is None:
-                print(f"did not find a port with secondary bus as {current_bus}") 
+                print(f"did not find a port with secondary bus as {current_bus}")
+                root_port_found = True
+                root_ports.append(current_bdf)
                 break
-
             else:
                 print("Upstream Connection: " + f"{upstream_connection}")
                 slot_capabilities = read_slot_capabilities(upstream_connection)
@@ -142,18 +145,17 @@ def gpu_traverse_up(gpu_bdf_list):
                 slot_number = int(hex_to_binary(slot_capabilities)[:13], 2)
 
                 print(f"slot_number: {slot_number}")
-#21,29
-            if(slot_number in range(4,8)):
+
+            if(slot_number in range(21,29) and port_found is False):
                 physical_slot_numbers.append(slot_number)
                 port_found = True
-            else:
-                print("valid slot number did not pass")
-                current_bus = upstream_connection.split(":")[0]
+            current_bdf = upstream_connection
+            current_bus = upstream_connection.split(":")[0]
         
         if(not port_found):
             physical_slot_numbers.append(-1)
 
-    return physical_slot_numbers
+    return physical_slot_numbers, root_ports
 
 def main():
     # check_replay(burn_time=10, gpu_index=[0,2])
