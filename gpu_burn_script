@@ -117,16 +117,18 @@ def gpu_traverse_up(gpu_bdf_list):
         port_found = False
         # keep traversing up the tree until a valid physical port number is found
         while(not port_found):
-            upstream_connection = (bdf for bdf in header_bdf_list if get_secondary_bus_number(bdf) == current_bus)
+            for bdf in header_bdf_list:
+                if get_secondary_bus_number(bdf) == current_bus:
+                    upstream_connection = bdf 
 
             if not any(upstream_connection): 
                 break
-            
-            print(upstream_connection)
-            slot_capabilities = read_slot_capabilities(upstream_connection)
-            slot_number = int(slot_capabilities[:14], 2)
+            else:
+                print(upstream_connection)
+                slot_capabilities = read_slot_capabilities(upstream_connection)
+                slot_number = int(slot_capabilities[:14], 2)
 
-            print(slot_number)
+                print(slot_number)
 
             if(slot_number in range(21,29)):
                 physical_slot_numbers.append(slot_number)
