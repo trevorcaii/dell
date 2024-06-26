@@ -41,10 +41,10 @@ def get_train_time(bdf):
     
     set_bridge_control(bdf, "0043", "Dell1234")
     link_status_bits = hex_to_binary(read_link_status(bdf))
-    print(link_status_bits[4])
+    print(link_status_bits)
     set_bridge_control(bdf, "0003", "Dell1234")
     link_status_bits = hex_to_binary(read_link_status(bdf))
-    print(link_status_bits[4])
+    print(link_status_bits)
 
 
 
