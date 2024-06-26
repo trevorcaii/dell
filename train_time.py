@@ -56,28 +56,26 @@ def set_bridge_control(bus, value, password):
 def get_train_time(bdf):
     header_type = read_header(bdf)[-2:]
 
+    # make sure that the bdf we are given has a downstream port to train with
     if header_type != "01":
         print("Invalid BDF")
         return -1
     
+    # I want to read what the speed capabilities of the bdf given and the one that is connected to it underneath
     primary_link_speed_capabilities = read_link_capabilities(bdf)[-1]
     secondary_bus = read_secondary_bus_number(bdf) + ":00.0"
     secondary_link_speed_capabilities =  read_link_capabilities(secondary_bus)[-1]
-    print(secondary_link_speed_capabilities)
-    link_status_bits = []
-
+    train_speed = min(primary_link_speed_capabilities, secondary_link_speed_capabilities)
+    print(train_speed)
+    # SBR and measure how much time has ellapsed
     set_bridge_control(bdf, "0043", "Dell1234")
-    link_status_bits.append(hex_to_binary(read_link_status(bdf)))
-    print(link_status_bits)
     set_bridge_control(bdf, "0003", "Dell1234")
-    link_status_bits.append(hex_to_binary(read_link_status(bdf)))
-    link_status_bits.append(hex_to_binary(read_link_status(bdf)))
-    link_status_bits.append(hex_to_binary(read_link_status(bdf)))
-    time.sleep(2)
-    link_status_bits.append(hex_to_binary(read_link_status(bdf)))
-
-    for link in link_status_bits:
-        print(link)
+    start = time.time()
+    while(read_link_status(bdf) != train_speed):
+        pass
+    end = time.time()
+    train_time = end - start
+    print(train_time)
 
     
 
