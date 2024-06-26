@@ -60,9 +60,10 @@ def get_train_time(bdf):
         print("Invalid BDF")
         return -1
     
-    up_link_speed_capabilities = read_link_capabilities(bdf)[-1]
+    primary_link_speed_capabilities = read_link_capabilities(bdf)[-1]
     secondary_bus = read_secondary_bus_number(bdf) + ":00.0"
-    print(secondary_bus)
+    secondary_link_speed_capabilities =  read_link_capabilities(secondary_bus)[-1]
+    print(secondary_link_speed_capabilities)
     link_status_bits = []
 
     set_bridge_control(bdf, "0043", "Dell1234")
