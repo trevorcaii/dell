@@ -53,7 +53,7 @@ def get_train_time(bdf):
         print("Invalid BDF")
         return -1
     
-    link_width_capabilities, link_speed_capabilities = extract_link_capabilities(read_link_capabilities(bdf))
+    link_speed_capabilities = read_link_capabilities(bdf)[-1]
     print(link_speed_capabilities)
     link_status_bits = []
 
