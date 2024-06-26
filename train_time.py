@@ -24,13 +24,30 @@ def extract_link_status(hex_string):
     current_link_width = int(binary_string[-4:], 2)
     current_link_speed = int(binary_string[-10:-4], 2)
     return current_link_width, current_link_speed
-    
+
+def set_bridge_control(bus, value, password):
+    try:
+        subprocess.run(["sudo", "-S", "setpci", "-s", bus, "3e.w=" + value], input=password.encode(), check=True)
+        print(f"Set Bridge Control for {bus} to {value}")
+    except subprocess.CalledProcessError:
+        print(f"Error setting Bridge Control for {bus}.")
+
 def get_train_time(bdf):
     header_type = read_header(bdf)[-2:]
-    if header_type == 
+
+    if header_type != "01":
+        print("Invalid BDF")
+        return -1
+    
+    set_bridge_control(bdf, "0043", "Dell1234")
+    link_status_bits = hex_to_binary(read_link_status(bdf))
+    print(link_status_bits[4])
+
+
 
 def main():
-    print(type(read_header("15:00.0")[-2:]))
+    bdf = "17:00.0"
+    get_train_time(bdf)
 
 if __name__ == "__main__":
     main()
