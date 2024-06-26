@@ -39,6 +39,13 @@ def extract_link_status(hex_string):
     current_link_speed = int(binary_string[-10:-4], 2)
     return current_link_width, current_link_speed
 
+def read_secondary_bus_number(bus):
+    try:
+        secondary_bus_output = subprocess.check_output(["setpci", "-s", bus, "19.b"])
+        return secondary_bus_output.decode().strip()
+    except subprocess.CalledProcessError:
+        return None
+
 def set_bridge_control(bus, value, password):
     try:
         subprocess.run(["sudo", "-S", "setpci", "-s", bus, "3e.w=" + value], input=password.encode(), check=True)
@@ -53,8 +60,9 @@ def get_train_time(bdf):
         print("Invalid BDF")
         return -1
     
-    link_speed_capabilities = read_link_capabilities(bdf)[-1]
-    print(link_speed_capabilities)
+    up_link_speed_capabilities = read_link_capabilities(bdf)[-1]
+    secondary_bus = read_secondary_bus_number(bdf) + ":00.0"
+    print(secondary_bus)
     link_status_bits = []
 
     set_bridge_control(bdf, "0043", "Dell1234")
