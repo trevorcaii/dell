@@ -71,7 +71,7 @@ def get_train_time(bdf):
     set_bridge_control(bdf, "0043", "Dell1234")
     set_bridge_control(bdf, "0003", "Dell1234")
     start = time.time()
-    while(read_link_status(bdf) != train_speed):
+    while(read_link_status(bdf)[-1] != train_speed):
         pass
     end = time.time()
     train_time = end - start
