@@ -61,12 +61,15 @@ def get_train_time(bdf):
         print("Invalid BDF")
         return -1
     
-    # I want to read what the speed capabilities of the bdf given and the one that is connected to it underneath
+    # I want to read what the speed and width capabilities of the bdf given and the one that is connected to it underneath
     primary_link_speed_capabilities = read_link_capabilities(bdf)[-1]
     secondary_bus = read_secondary_bus_number(bdf) + ":00.0"
     secondary_link_speed_capabilities =  read_link_capabilities(secondary_bus)[-1]
     train_speed = min(primary_link_speed_capabilities, secondary_link_speed_capabilities)
-    print(train_speed)
+
+    primary_link_width_capabilities = hex_to_binary(read_link_capabilities(bdf))[-9:-4]
+    print(primary_link_width_capabilities)
+
     # SBR and measure how much time has ellapsed
     set_bridge_control(bdf, "0043", "Dell1234")
     set_bridge_control(bdf, "0003", "Dell1234")
@@ -75,15 +78,15 @@ def get_train_time(bdf):
         pass
     end = time.time()
     train_time = end - start
-    print(train_time)
+    return train_time
 
     
 
 
 
 def main():
-    bdf = "17:00.0"
-    get_train_time(bdf)
+    bdf = "86:00.0"
+    print(get_train_time(bdf))
 
 if __name__ == "__main__":
     main()
