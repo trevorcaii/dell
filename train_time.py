@@ -15,7 +15,7 @@ def read_link_status(bus):
     except subprocess.CalledProcessError:
         return None
     
-def read_link_capabilities18(bus):
+def read_link_capabilities(bus):
     try:
         link_capabilities_output = subprocess.check_output(["setpci", "-s", bus, "CAP_EXP+0X0c.l"])
         return link_capabilities_output.decode().strip()
@@ -53,6 +53,8 @@ def get_train_time(bdf):
         print("Invalid BDF")
         return -1
     
+    link_width_capabilities, link_speed_capabilities = extract_link_capabilities(read_link_capabilities(bdf))
+    print(link_speed_capabilities)
     link_status_bits = []
 
     set_bridge_control(bdf, "0043", "Dell1234")
