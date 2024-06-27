@@ -117,7 +117,7 @@ def gpu_traverse_up():
     bdf_read = bdf_read.split('\n')
     bdf_read = [":".join(line.split(':')[1:]) for line in bdf_read]
     gpu_bdf_list = [bdf.lower() for bdf in bdf_read]
-
+    print(gpu_bdf_list)
     # get a list of all bdfs
     all_bdf_list = get_bdf_list()
 
