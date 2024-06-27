@@ -81,6 +81,7 @@ def get_train_time(bdf):
         pass
     end = time.time()
     train_time = end - start
+    print(hex_to_binary(read_link_status(bdf)))
     return train_time
 
     
