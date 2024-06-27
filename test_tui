@@ -27,7 +27,7 @@ def main(stdscr):
     slot_window = curses.newwin(height, 40, 1, 1)
     display_box(slot_window, 1, 1, height, 40, "Available Slot Numbers")
     for i, slot in enumerate(slot_numbers):
-        slot_window.addstr(i + 2, 2, slot)
+        slot_window.addstr(i + 2, f"\t", slot)
     slot_window.refresh()
 
     gpu_info = gpu_burn_script.gpu_traverse_up()
