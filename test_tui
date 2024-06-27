@@ -31,11 +31,13 @@ def main(stdscr):
         slot_window.addstr(i + 2, 2, slot)
     slot_window.refresh()
 
-    gpu_info = gpu_burn_script.gpu_traverse_up()
-    gpu_window_height = len(gpu_info)
+    gpu_info_list = gpu_burn_script.gpu_traverse_up()
+    gpu_window_height = len(gpu_info) + 4
     gpu_window_width = 20
     gpu_window = curses.newwin(gpu_window_height, gpu_window_width, 1, slot_window_width+3)
     display_box(gpu_window, 1, 41, gpu_window_height, gpu_window_width, "GPU Info")
+    for i, gpu_info in enumerate(gpu_info_list):
+        gpu_window.addnstr(i+2, 2, f"GPU {i}\tBDF: {gpu_info[0]}\tSlot: {gpu_info[1]}\tRoot Port: {gpu_info[2]}")
     gpu_window.refresh()
 
     # Collect user inputs
