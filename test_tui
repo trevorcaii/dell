@@ -32,7 +32,7 @@ def main(stdscr):
     slot_window.refresh()
 
     gpu_info_list = gpu_burn_script.gpu_traverse_up()
-    gpu_window_height = len(gpu_info) + 4
+    gpu_window_height = len(gpu_info_list) + 4
     gpu_window_width = 20
     gpu_window = curses.newwin(gpu_window_height, gpu_window_width, 1, slot_window_width+3)
     display_box(gpu_window, 1, 41, gpu_window_height, gpu_window_width, "GPU Info")
