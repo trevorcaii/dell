@@ -24,7 +24,7 @@ def main(stdscr):
     # Display available slot numbers
     slot_numbers = sbr.get_slot_numbers()
     height = max(len(slot_numbers) + 4, 10)
-    slot_window_width = 25
+    slot_window_width = 30
     slot_window = curses.newwin(height, slot_window_width, 1, 1)
     display_box(slot_window, 1, 1, height, slot_window_width, "Available Slot Numbers")
     for i, slot in enumerate(slot_numbers):
@@ -34,7 +34,7 @@ def main(stdscr):
     gpu_info = gpu_burn_script.gpu_traverse_up()
     gpu_window_height = len(gpu_info)
     gpu_window_width = 20
-    gpu_window = curses.newwin(gpu_window_height, gpu_window_width, 1, slot_window_width+5)
+    gpu_window = curses.newwin(gpu_window_height, gpu_window_width, 1, slot_window_width+3)
     display_box(gpu_window, 1, 41, gpu_window_height, gpu_window_width, "GPU Info")
     gpu_window.refresh()
 
