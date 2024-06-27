@@ -31,7 +31,9 @@ def main(stdscr):
     slot_window.refresh()
 
     gpu_info = gpu_burn_script.gpu_traverse_up()
-    gpu_window = curses.newwin(len(gpu_info), 40, 1, 41)
+    gpu_window_height = len(gpu_info)
+    gpu_window = curses.newwin(gpu_window_height, 40, 1, 41)
+    display_box(gpu_window, 1, 41, gpu_window_height, 40, "GPU Info")
     gpu_window.refresh()
 
     # Collect user inputs
