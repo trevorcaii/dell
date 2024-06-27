@@ -72,8 +72,10 @@ def get_train_time(bdf):
     train_width = min(primary_link_width_capabilities, secondary_link_width_capabilities)
 
     # SBR and measure how much time has ellapsed
+    print(hex_to_binary(read_link_status(bdf)))
     set_bridge_control(bdf, "0043", "Dell1234")
     set_bridge_control(bdf, "0003", "Dell1234")
+    print(hex_to_binary(read_link_status(bdf)))
     start = time.time()
     while(read_link_status(bdf)[-1] != train_speed and hex_to_binary(read_link_status(bdf))[-9:-4] != train_width):
         pass
