@@ -50,7 +50,7 @@ def main(stdscr):
     output_window.addstr(1, 1, "TEST")
     # output_window.refresh(0,0,5,5,10,60)
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
-    output_window.refresh(0, 0, 15, 55, 25, 100)
+    output_window.refresh(0, 0, 15, 55, 25, 65)
     # output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
     display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
     # output_window.addstr(0, 0, "YTES")
