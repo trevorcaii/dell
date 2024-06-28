@@ -59,8 +59,8 @@ def main(stdscr):
     output_window = curses.newpad(100, 100)
     # These loops fill the pad with letters; addch() is
     # explained in the next section
-    output_window.addnstr(1,1,curses.LINES)
-    output_window.addnstr(2,1,curses.COLS)
+    output_window.addstr(1,1,f"{curses.LINES}")
+    output_window.addstr(2,1,f"{curses.COLS}")
 
     # Displays a section of the pad in the middle of the screen.
     # (0,0) : coordinate of upper-left corner of pad area to display.
