@@ -34,15 +34,8 @@ def main(stdscr):
         slot_window.addstr(i + 2, 2, slot)
     slot_window.refresh()
 
-    output_window = curses.newwin(10, 30, height, slot_window_width+3)
-    display_box(output_window, 10, 41, height, slot_window_width+3, "Output")
-    output_window.addstr(2, 2, "YTES")
-    output_window.refresh()
-    
-    
-
     gpu_window_height = height  
-    gpu_window_width = 65
+    gpu_window_width = 70
     gpu_window = curses.newwin(gpu_window_height, gpu_window_width, 1, slot_window_width+3)
     display_box(gpu_window, 1, 41, gpu_window_height, gpu_window_width, "GPU Info")
     for i, gpu_info in enumerate(gpu_info_list):
@@ -50,10 +43,19 @@ def main(stdscr):
         gpu_window.addstr(i+2, 2, gpu_print.expandtabs(3))
     gpu_window.refresh()
 
+
+    output_window_height = 15
+    output_window_width = 50
+    output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
+    output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
+    display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
+    output_window.addstr(0, 0, "YTES")
+    output_window.refresh() 
+
     # Collect user inputs
     input_window_height = 15
     input_window_width = 50
-    input_window = curses.newwin(input_window_height-4, input_window_width-4, height + 3, 3)
+    input_window = curses.newwin(input_window_height-4, input_window_width-4, height + 4, 3)
     input_window_border = curses.newwin(input_window_height, input_window_width, height + 2, 1)
     display_box(input_window_border, height + 2, 1, input_window_height, input_window_width, "User Inputs")
 
