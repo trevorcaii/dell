@@ -46,16 +46,32 @@ def main(stdscr):
 
     output_window_height = 15
     output_window_width = 50
-    output_window = curses.newpad(100, 100)
-    output_window.addstr(1, 1, "TEST")
-    output_window.addstr(20, 1, "YES")
-    output_window.refresh(0,0,15, 50, 25, 100)
-    output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
-    # output_window.refresh(0, 0, 5, 5, 25, 50)
-    # output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
-    display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
-    # output_window.addstr(0, 0, "YTES")
-    # output_window.refresh() 
+    # output_window = curses.newpad(100, 100)
+    # output_window.addstr(1, 1, "TEST")
+    # output_window.addstr(20, 1, "YES")
+    # output_window.refresh(0,0,15, 50, 25, 100)
+    # output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
+    # # output_window.refresh(0, 0, 5, 5, 25, 50)
+    # # output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
+    # display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
+    # # output_window.addstr(0, 0, "YTES")
+    # # output_window.refresh() 
+
+    pad = curses.newpad(100, 100)
+    # These loops fill the pad with letters; addch() is
+    # explained in the next section
+    for y in range(0, 99):
+        for x in range(0, 99):
+            pad.addch(y,x, ord('a') + (x*x+y*y) % 26)
+
+    # Displays a section of the pad in the middle of the screen.
+    # (0,0) : coordinate of upper-left corner of pad area to display.
+    # (5,5) : coordinate of upper-left corner of window area to be filled
+    #         with pad content.
+    # (20, 75) : coordinate of lower-right corner of window area to be
+    #          : filled with pad content.
+    pad.refresh( 0,0, 5,5, 20,75)
+
 
     # Collect user inputs
     input_window_height = 15
