@@ -70,7 +70,7 @@ def main(stdscr):
     #         with pad content.
     # (20, 75) : coordinate of lower-right corner of window area to be
     #          : filled with pad content.
-    pad.refresh( 0,0, 5,5, 20,75)
+    pad.refresh( 0,0, 15,5, 20,75)
 
 
     # Collect user inputs
