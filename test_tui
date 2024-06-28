@@ -51,8 +51,10 @@ def main(stdscr):
     gpu_window.refresh()
 
     # Collect user inputs
-    input_window = curses.newwin(15, 60, height + 2, 1)
-    display_box(input_window, height + 2, 1, 15, 60, "User Inputs")
+    input_window_width = 40
+    input_window_height = 15
+    input_window = curses.newwin(input_window_height, input_window_width, height + 2, 1)
+    display_box(input_window, height + 2, 1, input_window_height, input_window_width, "User Inputs")
 
     input_window.addstr(2, 2, "Enter your password (sudo access): ")
     user_password = input_window.getstr().decode()
