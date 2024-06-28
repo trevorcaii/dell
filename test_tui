@@ -34,8 +34,8 @@ def main(stdscr):
         slot_window.addstr(i + 2, 2, slot)
     slot_window.refresh()
 
-    output_window = curses.newwin(10, 30, 10, slot_window_width+3)
-    display_box(output_window, 10, 41, 10, 30, "Output")
+    output_window = curses.newwin(10, 30, height, slot_window_width+3)
+    display_box(output_window, 10, 41, height, slot_window_width+3, "Output")
     output_window.addstr(2, 2, "YTES")
     output_window.refresh()
     
