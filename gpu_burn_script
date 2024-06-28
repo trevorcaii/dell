@@ -1,6 +1,7 @@
 import subprocess
 from datetime import datetime
 import time
+import curses
 
 def execute_shell_command(command):
     try:
@@ -111,7 +112,7 @@ def hex_to_binary(hex_string):
     binary_string = format(int(hex_string, 16), '032b')
     return binary_string
 
-def gpu_traverse_up():
+def gpu_traverse_up(curses_output_window, line_offset):
     # use nvidia-smi to get all the BDF of the GPUs
     bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
     bdf_read = bdf_read.split('\n')
@@ -133,6 +134,7 @@ def gpu_traverse_up():
         port_found = False
         root_port_found = False
         # print(f"starting {i} GPU")
+        curses_output_window.addstr(i + line_offset + 2, 2, f"starting {i} GPU")
 
         # keep traversing up the tree until a valid physical port number is found
         while(not port_found and not root_port_found):
