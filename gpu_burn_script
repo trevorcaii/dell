@@ -135,6 +135,7 @@ def gpu_traverse_up(curses_output_window, line_offset):
         root_port_found = False
         # print(f"starting {i} GPU")
         curses_output_window.addstr(i + line_offset + 2, 2, f"starting {i} GPU")
+        curses_output_window.refresh()
 
         # keep traversing up the tree until a valid physical port number is found
         while(not port_found and not root_port_found):
