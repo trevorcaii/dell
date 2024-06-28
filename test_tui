@@ -43,7 +43,8 @@ def main(stdscr):
         gpu_window.addstr(i+2, 2, gpu_print.expandtabs(3))
     gpu_window.refresh()
 
-
+    print(curses.LINES)
+    print(curses.COLS)
     output_window_height = 15
     output_window_width = 50
     # output_window = curses.newpad(100, 100)
