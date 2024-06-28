@@ -52,9 +52,10 @@ def main(stdscr):
 
     # Collect user inputs
     input_window_height = 15
-    input_window_width = 40
-    input_window = curses.newwin(input_window_height, input_window_width, height + 2, 1)
-    display_box(input_window, height + 2, 1, input_window_height, input_window_width, "User Inputs")
+    input_window_width = 50
+    input_window = curses.newwin(input_window_height-4, input_window_width-4, height + 3, 3)
+    input_window_border = curses.newwin(input_window_height, input_window_width, height + 1, 1)
+    display_box(input_window_border, height + 2, 1, input_window_height, input_window_width, "User Inputs")
 
     input_window.addstr(2, 2, "Enter your password (sudo access): ")
     user_password = input_window.getstr().decode()
