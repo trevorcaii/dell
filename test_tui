@@ -48,7 +48,7 @@ def main(stdscr):
     output_window = curses.newpad(100, 100)
     output_window.addstr(1, 1, "TEST")
     output_window.addstr(20, 1, "YES")
-    output_window.refresh(0, 0, height + 4, 55, min(25,curses.LINE-1), min(100,curses.COLS-1))
+    output_window.refresh(0, 0, height + 4, 55, min(25,curses.COLS-1), min(100,curses.LINES-1))
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 53)
     # output_window.refresh(0, 0, 5, 5, 25, 50)
     # output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
