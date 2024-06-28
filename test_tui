@@ -31,3 +31,5 @@ def main(stdscr):
         gpu_window.addstr(i, 0, gpu_print.expandtabs(3))
     gpu_window_border.refresh()
     gpu_window.refresh()
+
+curses.wrapper(main)
