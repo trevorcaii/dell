@@ -56,22 +56,6 @@ def main(stdscr):
     # output_window.addstr(0, 0, "YTES")
     # output_window.refresh() 
 
-    output_window = curses.newpad(100, 100)
-    # These loops fill the pad with letters; addch() is
-    # explained in the next section
-    output_window.addstr(1,1,f"{curses.LINES}")
-    output_window.addstr(2,1,f"{curses.COLS}")
-
-    # Displays a section of the pad in the middle of the screen.
-    # (0,0) : coordinate of upper-left corner of pad area to display.
-    # (5,5) : coordinate of upper-left corner of window area to be filled
-    #         with pad content.
-    # (20, 75) : coordinate of lower-right corner of window area to be
-    #          : filled with pad content.
-    output_window.refresh(0,0,5,5,10,10)
-    
-
-
     # Collect user inputs
     input_window_height = 15
     input_window_width = 50
