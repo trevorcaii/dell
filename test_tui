@@ -57,6 +57,7 @@ def main(stdscr):
     output_window_width = 50
     output_window = curses.newpad(10000, 50)
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
+    display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
     pad_pos = -1
     # output_window.addstr(0, 0, "TEST")
     # output_window.addstr(20, 0, "asasassasasasssasasasasasasasasasasasasasasasasasasassasasasasasasasasasasasasasasasasasasasa")
@@ -71,6 +72,7 @@ def main(stdscr):
     # pad_pos 
     for i in range(50):
         pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, f"{i}")
+        time.sleep(2)
 
     # Collect user inputs
     input_window_height = 15
