@@ -25,9 +25,9 @@ def main(stdscr):
     def output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = ""):
         pady, padx = window.getyx()
         window.addstr(pady+1, 0, input)
-        if pady > window_height:  
+        if pady > window_height-4:  
             pad_pos += int(len(input)/window_width + 1)
-        window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 4), min(curses.COLS-1, window_width))
+        window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 4), min(curses.COLS-1, window_offset_x + window_width - 4))
         return pad_pos
         
 
@@ -68,7 +68,7 @@ def main(stdscr):
     # # output_window.refresh() 
     # output_window.refresh(20,0, height + 4, 55, min(curses.LINES-1, height + 4 + output_window_height-4), min(curses.COLS-1,100))
     # pad_pos 
-    output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, "TEST")
+    pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, "TEST")
 
     # Collect user inputs
     input_window_height = 15
