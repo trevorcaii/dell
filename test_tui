@@ -84,7 +84,6 @@ def main(stdscr):
     slotlist = list(map(int, slot_input.split(',')))
 
     input_window.clear()
-    display_box(input_window, height + 2, 1, 15, 50, "Test Parameters")
     input_window.addstr(2-2, 0, f"Password: {'*' * len(user_password)}")
     input_window.addstr(4-2, 0, f"Number of Loops: {inputnum_loops}")
     input_window.addstr(6-2, 0, f"Kill on error: {kill}")
