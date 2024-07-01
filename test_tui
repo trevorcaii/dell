@@ -22,12 +22,15 @@ def main(stdscr):
         window.refresh()
 
     # Function to Print to Output Window
-    def output_print(window, pad_pos, output_window_height, input_line, input = ""):
-        window.addstr(input_line, 0, input)
-        if input_line > output_window_height:  
-            pad_pos += 1
-        window.refresh()
+    def output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = ""):
+        pady, padx = window.getyx()
+        window.addstr(pady+1, 0, input)
+        if pady > window_height:  
+            pad_pos += int(len(input)/window_width + 1)
+        window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 4), min(curses.COLS-1, window_width))
+        return pad_pos
         
+
     # Display available slot numbers
     slot_numbers = sbr.get_slot_numbers()
     gpu_info_list = gpu_burn_script.gpu_traverse_up()
@@ -62,7 +65,7 @@ def main(stdscr):
     display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
     # output_window.addstr(0, 0, "YTES")
     # output_window.refresh() 
-    output_window.refresh(0,0, height + 4, 55, min(curses.LINES-1, height + 4 + output_window_height-4), min(curses.COLS-1,60))
+    output_window.refresh(20,0, height + 4, 55, min(curses.LINES-1, height + 4 + output_window_height-4), min(curses.COLS-1,60))
 
     # Collect user inputs
     input_window_height = 15
