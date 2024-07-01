@@ -52,9 +52,9 @@ def main(stdscr):
 
     output_window_height = 15
     output_window_width = 50
-    output_window = curses.newpad(10000, 100)
+    output_window = curses.newpad(10000, 50)
     output_window.addstr(0, 0, "TEST")
-    output_window.addstr(20, 1, "YES")
+    output_window.addstr(20, 0, "as;ldfjal;sdkf;ajdfl;asjd;fljasdfowrupialkvl;sadhjfjajiheoga;ldsfj;aljdfl;asjdfl;qaopgad;lfasjdl;jowapiehfoasjd;laslkdfja")
     output_window.addstr(1,0, f"{output_window.getyx()}")
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
     # output_window.refresh(0, 0, 5, 5, 25, 50)
