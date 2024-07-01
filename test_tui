@@ -3,6 +3,7 @@ import sbr
 import device_control
 from datetime import datetime
 import gpu_burn_script
+import time
 
 def main(stdscr):
     curses.echo()
