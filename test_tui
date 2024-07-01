@@ -60,7 +60,7 @@ def main(stdscr):
     display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
     pad_pos = 0
     for i in range(50):
-        pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, "asasassssasasasasasasasasasasasasassas")
+        pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, f"{i} asasassssasasasasasasasasasasasasassas")
         time.sleep(0.2)
 
     # Collect user inputs
