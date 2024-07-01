@@ -1,7 +1,6 @@
 import subprocess
 from datetime import datetime
 import time
-import tui
 
 def execute_shell_command(command):
     try:
