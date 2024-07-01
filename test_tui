@@ -21,6 +21,13 @@ def main(stdscr):
         window.attroff(curses.color_pair(2))
         window.refresh()
 
+    # Function to Print to Output Window
+    def output_print(window, pad_pos, output_window_height, input_line, input = ""):
+        window.addstr(input_line, 0, input)
+        if input_line > output_window_height:  
+            pad_pos += 1
+        window.refresh()
+        
     # Display available slot numbers
     slot_numbers = sbr.get_slot_numbers()
     gpu_info_list = gpu_burn_script.gpu_traverse_up()
@@ -48,6 +55,7 @@ def main(stdscr):
     output_window = curses.newpad(10000, 100)
     output_window.addstr(0, 0, "TEST")
     output_window.addstr(20, 1, "YES")
+    output_window.addstr(1,0, f"{output_window.getyx()}")
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
     # output_window.refresh(0, 0, 5, 5, 25, 50)
     # output_window = curses.newwin(output_window_height-4, output_window_width-4, height + 4, 50+3+2)
