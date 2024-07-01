@@ -69,7 +69,8 @@ def main(stdscr):
     # # output_window.refresh() 
     # output_window.refresh(20,0, height + 4, 55, min(curses.LINES-1, height + 4 + output_window_height-4), min(curses.COLS-1,100))
     # pad_pos 
-    pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, "TEST")
+    for i in range(50):
+        pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, f"{i}")
 
     # Collect user inputs
     input_window_height = 15
