@@ -73,7 +73,7 @@ def main(stdscr):
     # pad_pos 
     for i in range(50):
         pad_pos = output_print(output_window, height + 4, 55, output_window_height, output_window_width, pad_pos, f"{i}")
-        time.sleep(2)
+        time.sleep(0.5)
 
     # Collect user inputs
     input_window_height = 15
