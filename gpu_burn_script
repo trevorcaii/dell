@@ -28,13 +28,11 @@ def execute_shell_command(command):
 
 def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
     try:
-        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "Starting gpu_burn...")
-        pad_pos += 1
+        pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "Starting gpu_burn...")
         # print("Starting gpu_burn...")
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
         gpu_process = subprocess.Popen(['./gpu_burn', '-d', '-m', f"{gpu_percentage}%", f"{burn_time}"], cwd="/home/NVIDIA/gpu_burn-1.1/gpu-burn", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "running in background")
-        pad_pos += 1
+        pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "running in background")
         # print("running in background")
     except Exception as e:
         return f"Error: {str(e)}"
@@ -44,19 +42,16 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
     while gpu_process.poll() is None:
         now = datetime.now()
         # print("Current Timestamp:", now)
-        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"Current Timestamp: {now}")
-        pad_pos += 1
+        pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"Current Timestamp: {now}")
         if(len(gpu_index) > 0):
             for index in gpu_index:
                 # print(f"GPU {index}:")
-                output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"GPU {index}:")
-                pad_pos += 1
+                pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"GPU {index}:")
                 replay_count = execute_shell_command(f"nvidia-smi -i {index} -q|grep -i replay")
                 replay_count = replay_count.split("\n")
                 for line in replay_count: 
                     # print(line.strip())
-                    output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"{line.strip()}")
-                    pad_pos += 1
+                    pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"{line.strip()}")
         else:
             for i in range(gpu_number):
                 print(f"GPU {i}:")
@@ -64,16 +59,14 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
                 replay_count = replay_count.split("\n")
                 for line in replay_count: 
                     # print(line.strip())
-                    output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"{line.strip()}")
-                    pad_pos += 1
+                    pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"{line.strip()}")
         # print()
         pad_pos += 1
         time.sleep(call_time) 
 
     # 'gpu_burn' has finished; you can perform any cleanup or final actions here
     # print("gpu_burn has completed.")
-    output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "gpu_burn has completed.")
-    pad_pos += 1
+    pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "gpu_burn has completed.")
 
     bdf_read = execute_shell_command("nvidia-smi --query-gpu=pci.bus_id --format=csv,noheader")
     bdf_read = bdf_read.split('\n')
