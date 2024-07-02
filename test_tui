@@ -54,7 +54,7 @@ def main(stdscr):
         pad_pos = output_print(output_window, height + 3, 55, output_window_height, output_window_width, pad_pos, f"{i} asasassssasaasassasaasassasassasasasaasassasasasasasasasasasasassas")
         time.sleep(0.2)
 
-    gpu_burn_script.check_replay(burn_time=10, gpu_number=4, output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
+    gpu_burn_script.check_replay(95, 10, 4, [], 10, output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
 
     # Collect user inputs
     input_window_height = 15
