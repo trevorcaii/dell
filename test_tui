@@ -50,7 +50,7 @@ def main(stdscr):
     output_window_border = curses.newwin(output_window_height, output_window_width, height + 2, 50+3)
     display_box(output_window_border, 10, 41, height, slot_window_width+3, "Output")
     pad_pos = 0
-    for i in range(50):
+    for i in range(20):
         pad_pos = gpu_burn_script.output_print(output_window, height + 3, 55, output_window_height, output_window_width, pad_pos, f"{i} asasassssasaasassasaasassasassasasasaasassasasasasasasasasasasassas")
         time.sleep(0.2)
 
