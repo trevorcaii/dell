@@ -43,6 +43,7 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
         now = datetime.now()
         # print("Current Timestamp:", now)
         pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"Current Timestamp: {now}")
+        time.sleep(1)
         if(len(gpu_index) > 0):
             for index in gpu_index:
                 # print(f"GPU {index}:")
