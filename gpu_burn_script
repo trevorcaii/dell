@@ -28,11 +28,12 @@ def execute_shell_command(command):
 
 def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
     try:
-        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "Starting gpu_burn...")
+        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos+=1, input = "Starting gpu_burn...")
         # print("Starting gpu_burn...")
         # "> /dev/null" will not clutter stdout with gpu_burn's outputs
         gpu_process = subprocess.Popen(['./gpu_burn', '-d', '-m', f"{gpu_percentage}%", f"{burn_time}"], cwd="/home/NVIDIA/gpu_burn-1.1/gpu-burn", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print("running in background")
+        output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = "running in background")
+        # print("running in background")
     except Exception as e:
         return f"Error: {str(e)}"
 
