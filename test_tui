@@ -21,15 +21,6 @@ def main(stdscr):
         window.addstr(0, 2, f' {title} ')
         window.attroff(curses.color_pair(2))
         window.refresh()
-
-    # Function to Print to Output Window
-    def output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = ""):
-        pady, padx = window.getyx()
-        window.addstr(pady+1, 0, input)
-        if pady+1 > window_height-4:  
-            pad_pos += int(len(input)/window_width + 1)
-        window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
-        return pad_pos
     
     # Display available slot numbers
     slot_numbers = sbr.get_slot_numbers()
@@ -63,7 +54,7 @@ def main(stdscr):
         pad_pos = output_print(output_window, height + 3, 55, output_window_height, output_window_width, pad_pos, f"{i} asasassssasaasassasaasassasassasasasaasassasasasasasasasasasasassas")
         time.sleep(0.2)
 
-    gpu_burn_script.check_replay(burn_time=10, gpu_number=4)
+    gpu_burn_script.check_replay(burn_time=10, gpu_number=4, output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
 
     # Collect user inputs
     input_window_height = 15
