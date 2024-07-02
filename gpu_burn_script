@@ -63,7 +63,6 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
                     # print(line.strip())
                     pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"{line.strip()}")
         # print()
-        pad_pos += 1
         time.sleep(call_time) 
 
     # 'gpu_burn' has finished; you can perform any cleanup or final actions here
