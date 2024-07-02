@@ -43,14 +43,10 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
         now = datetime.now()
         # print("Current Timestamp:", now)
         pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"Current Timestamp: {now}")
-        # pad_pos+=1
-        time.sleep(1)
         if(len(gpu_index) > 0):
             for index in gpu_index:
                 # print(f"GPU {index}:")
                 pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"GPU {index}:")
-                # pad_pos+=1
-                time.sleep(1)
                 replay_count = execute_shell_command(f"nvidia-smi -i {index} -q|grep -i replay")
                 replay_count = replay_count.split("\n")
                 for line in replay_count: 
@@ -59,7 +55,8 @@ def check_replay(gpu_percentage, burn_time, gpu_number, gpu_index, call_time, wi
                     time.sleep(1)
         else:
             for i in range(gpu_number):
-                print(f"GPU {i}:")
+                # print(f"GPU {i}:")
+                pad_pos = output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, input = f"GPU {index}:")
                 replay_count = execute_shell_command(f"nvidia-smi -i {i} -q|grep -i replay")
                 replay_count = replay_count.split("\n")
                 for line in replay_count: 
