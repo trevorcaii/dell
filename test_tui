@@ -29,10 +29,10 @@ def main(stdscr):
         while True:
             cmd = window.getch()
             if cmd == ord('q'): break
-            if cmd == ord('^[[B'):
+            if cmd == '^[[B':
                 if scroll_pad < pad_pos: scroll_pad += 1
                 window.refresh(scroll_pad, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
-            elif cmd == ord('^[[A'):
+            elif cmd == '^[[A':
                 if scroll_pad > 0: scroll_pad -= 1
                 window.refresh(scroll_pad, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
     
