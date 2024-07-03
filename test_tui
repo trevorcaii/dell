@@ -24,11 +24,10 @@ def main(stdscr):
 
     # Function for Scollabilityr on the pad
     def scroll_output(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
-        scroll_cmd = curses.newwin(2,2,0,0)
         scroll_pad = pad_pos
-        cmd = ""
+        cmd = ''
         while cmd != ord('q'):
-            cmd = scroll_cmd.getch()
+            cmd = curses.getch()
             if cmd == curses.KEY_DOWN:
                 if scroll_pad < pad_pos: scroll_pad += 1
                 window.refresh(scroll_pad, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
