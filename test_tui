@@ -24,17 +24,16 @@ def main(stdscr):
 
     # Function for Scollabilityr on the pad
     def scroll_output(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
+        stdscr.refresh()
         scroll_pad = pad_pos
         cmd = ""
         while cmd != ord('q'):
             cmd = stdscr.getch()
             if cmd == curses.KEY_DOWN:
                 if scroll_pad < pad_pos: scroll_pad += 1
-                window.clear()
                 window.refresh(scroll_pad, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
             elif cmd == curses.KEY_UP:
                 if scroll_pad > 0: scroll_pad -= 1
-                window.clear()
                 window.refresh(scroll_pad, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
     
     # Display available slot numbers
