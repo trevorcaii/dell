@@ -21,6 +21,18 @@ def main(stdscr):
         window.addstr(0, 2, f' {title} ')
         window.attroff(curses.color_pair(2))
         window.refresh()
+
+    # Function for Scollabilityr on the pad
+    def scroll_output(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
+        cmd = ""
+        while cmd != "q":
+            cmd = stdscr.getch()
+            if cmd == curses.KEY_DOWN:
+                pad_pos += 1
+                window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
+            elif cmd == curses.KEY_UP:
+                pad_pos -= 1
+                window.refresh(pad_pos, 0, window_offset_y, window_offset_x, min(curses.LINES-1, window_offset_y + window_height - 3), min(curses.COLS-1, window_offset_x + window_width - 5))
     
     # Display available slot numbers
     slot_numbers = sbr.get_slot_numbers()
@@ -54,7 +66,9 @@ def main(stdscr):
         pad_pos = gpu_burn_script.output_print(output_window, height + 3, 55, output_window_height, output_window_width, pad_pos, f"{i} asasassssasaasassasaasassasassasasasaasassasasasasasasasasasasassas")
         time.sleep(0.2)
 
-    gpu_burn_script.check_replay(95, 10, 4, [], 10, output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
+    pad_pos = gpu_burn_script.check_replay(95, 10, 4, [], 10, output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
+
+    scroll_output(output_window, height + 3, 55, output_window_height, output_window_width, pad_pos)
 
     # Collect user inputs
     input_window_height = 15
