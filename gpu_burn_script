@@ -202,7 +202,8 @@ def gpu_traverse_up():
         if(not port_found):
             physical_slot_numbers.append(-1)
     # gpu_streams = {gpuBDF : [physical_slot_numbers[i], root_ports[i]] for i, gpuBDF in enumerate(gpu_bdf_list)}
-    gpu_streams = [[gpuBDF, physical_slot_numbers[i], root_ports[i]] for i, gpuBDF in enumerate(gpu_bdf_list)]
+    psb_number = [1, 1, 2, 2, 4, 4, 3, 3] if len(gpu_bdf_list) > 4 else [1, 2, 4, 3]
+    gpu_streams = [[gpuBDF, physical_slot_numbers[i], root_ports[i], psb_number[i]] for i, gpuBDF in enumerate(gpu_bdf_list)]
     return gpu_streams
 
 def main():
