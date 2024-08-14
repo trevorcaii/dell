@@ -135,7 +135,6 @@ def log_dmidecode_info(log_file):
 
 def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
     bridge_control_list = []
-    link_capabilities = {"upstream": [], "downstream": []}
     expected_negotiated_link = []
 
     max_train_time = 0
@@ -144,14 +143,10 @@ def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
         bdf_link_capabilities = read_and_extract_link_capabilities(bdf, read_link_capabilities17)
         secondary_bdf_link_capabilities = read_and_extract_link_capabilities(secondary_bdf_list[index], read_link_capabilities18)
         negotiated_link = (min(bdf_link_capabilities[0],secondary_bdf_link_capabilities[0]),min(bdf_link_capabilities[1],secondary_bdf_link_capabilities[1]))
-        print(negotiated_link)
-        print(type(negotiated_link))
+        expected_negotiated_link.append(negotiated_link)
         train_time = get_train_time(bdf)
         if train_time > max_train_time:
             max_train_time = train_time
-
-    print(bridge_control_list)
-    print(link_capabilities)
 
     for i in range(loops):
         for bdf in bdf_list:
@@ -163,7 +158,11 @@ def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
         for index, bdf in enumerate(bdf_list):
             current_link_status_hex = read_link_status(bdf)
             current_link_status = extract_link_status(current_link_status_hex)
-            print(link_capabilities["downstream"])
+            
+            if current_link_status != expected_negotiated_link[index]:
+                print("not the same")
+            else:
+                print("same")
 
 
 def run_test(user_password, inputnum_loops, kill, bdf_list, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
