@@ -133,11 +133,12 @@ def log_dmidecode_info(log_file):
         with open(log_file, 'a') as log:
             log.write(f"\nError running dmidecode: {str(e)}\n")
 
-def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
+def sbr(user_password, loops, kill, bdf_list, secondary_bdf_list):
+    output_lines = []
     bridge_control_list = []
     expected_negotiated_link = []
-
     max_train_time = 0
+
     for index, bdf in enumerate(bdf_list):
         bridge_control_list.append(read_bridge_control(bdf))
         bdf_link_capabilities = read_and_extract_link_capabilities(bdf, read_link_capabilities17)
@@ -147,6 +148,8 @@ def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
         train_time = get_train_time(bdf)
         if train_time > max_train_time:
             max_train_time = train_time
+
+    tested_bdf_info = {}
 
     for i in range(loops):
         for bdf in bdf_list:
@@ -160,9 +163,27 @@ def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
             current_link_status = extract_link_status(current_link_status_hex)
             
             if current_link_status != expected_negotiated_link[index]:
-                print("not the same")
-            else:
-                print("same")
+                error_time = datetime.now()
+                error_info = {
+                    "reset_count": i,
+                    "link_status": current_link_status,
+                    "link_capabilities": expected_negotiated_link[index],
+                    "error_time": error_time,
+                }
+                if bdf in tested_bdf_info:
+                    tested_bdf_info[bdf]["errors"].append(error_info)
+                else:
+                    tested_bdf_info[bdf] = {
+                        "specific_bus_link": secondary_bdf_list[index],
+                        "errors": [error_info],
+                    }
+                if kill == "y":
+                    with open("output.txt", "w") as file:
+                        for line in output_lines:
+                            file.write(line + "\n")
+                    # pad_pos = functions.output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, "")
+                    # pad_pos = functions.output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, "Link status does not match capabilities. Killing the program.")
+                    return tested_bdf_info
 
 
 def run_test(user_password, inputnum_loops, kill, bdf_list, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
