@@ -136,16 +136,19 @@ def log_dmidecode_info(log_file):
 def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
     bridge_control_list = []
     link_capabilities = {"upstream": [], "downstream": []}
+    expected_negotiated_link = []
 
     max_train_time = 0
     for index, bdf in enumerate(bdf_list):
         bridge_control_list.append(read_bridge_control(bdf))
-        link_capabilities["upstream"].append(read_and_extract_link_capabilities(bdf, read_link_capabilities17))
-        link_capabilities["downstream"].append(read_and_extract_link_capabilities(secondary_bdf_list[index], read_link_capabilities18))
+        bdf_link_capabilities = read_and_extract_link_capabilities(bdf, read_link_capabilities17)
+        secondary_bdf_link_capabilities = read_and_extract_link_capabilities(secondary_bdf_list[index], read_link_capabilities18)
+        print(bdf_link_capabilities)
+        print(secondary_bdf_link_capabilities)
         train_time = get_train_time(bdf)
         if train_time > max_train_time:
             max_train_time = train_time
-    
+
     print(bridge_control_list)
     print(link_capabilities)
 
