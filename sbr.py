@@ -159,7 +159,7 @@ def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
         for index, bdf in enumerate(bdf_list):
             current_link_status_hex = read_link_status(bdf)
             current_link_status = extract_link_status(current_link_status_hex)
-            print(current_link_status)
+            print(link_capabilities["downstream"])
 
 
 def run_test(user_password, inputnum_loops, kill, bdf_list, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
