@@ -142,8 +142,11 @@ def sbr(user_password, loops, kill, bdf_list, secondary_bdf_list):
     for index, bdf in enumerate(bdf_list):
         bridge_control_list.append(read_bridge_control(bdf))
         bdf_link_capabilities = read_and_extract_link_capabilities(bdf, read_link_capabilities17)
+        print(bdf_link_capabilities)
         secondary_bdf_link_capabilities = read_and_extract_link_capabilities(secondary_bdf_list[index], read_link_capabilities18)
+        print(secondary_bdf_link_capabilities)
         negotiated_link = (min(bdf_link_capabilities[0],secondary_bdf_link_capabilities[0]),min(bdf_link_capabilities[1],secondary_bdf_link_capabilities[1]))
+        print(negotiated_link)
         expected_negotiated_link.append(negotiated_link)
         train_time = get_train_time(bdf)
         if train_time > max_train_time:
