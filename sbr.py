@@ -133,7 +133,7 @@ def log_dmidecode_info(log_file):
         with open(log_file, 'a') as log:
             log.write(f"\nError running dmidecode: {str(e)}\n")
 
-def sbr(bdf_list, secondary_bdf_list, loops, kill):
+def sbr(user_password, bdf_list, secondary_bdf_list, loops, kill):
     bridge_control_list = []
     link_capabilities = {"upstream": [], "downstream": []}
 
@@ -148,6 +148,61 @@ def sbr(bdf_list, secondary_bdf_list, loops, kill):
     
     print(bridge_control_list)
     print(link_capabilities)
+
+    for i in range(loops):
+        for bdf in bdf_list:
+            set_bridge_control(bdf, "0043", user_password)
+        for index, bdf in enumerate(bdf_list):
+            set_bridge_control(bdf, bridge_control_list[index], user_password)
+        time.sleep(max_train_time)
+
+        for index, bdf in enumerate(bdf_list):
+            current_link_status_hex = read_link_status(bdf)
+            current_link_status = extract_link_status(current_link_status_hex)
+            print(current_link_status)
+
+    for i in range(num_loops):
+        if i % 2 == 0: time.sleep(max_train_time)
+        for j in indexlist:
+            operation_count += 1
+            slot_test_count[slotnumbers[j]] += 1
+            pad_pos = functions.progress_bar(operation_count, total_operations, 'Progress', 'Complete', 1, window_width-31, '█', window, window_offset_y, window_offset_x, window_height, window_width, pad_pos)
+            specific_bus_bridge = listbdf[j]
+            specific_bus_link = listbdfdown[j]
+            desired_values = [bridgecontrollist[indexlist.index(j)], "0043"]
+            desired_value = desired_values[i % len(desired_values)]
+            set_bridge_control(specific_bus_bridge, desired_value, user_password)
+              # Use the maximum train time as sleep duration
+            if i % 2 == 0:
+                # print(specific_bus_bridge)
+                current_link_status_hex = read_link_status(specific_bus_bridge)
+                # print(current_link_status_hex)
+                # time.sleep(0)
+                current_link_status = extract_link_status(current_link_status_hex)
+                
+                if current_link_status != link_capabilities["downstream"][indexlist.index(j)]:
+                    error_time = datetime.now()
+                    error_info = {
+                        "reset_count": i,
+                        "link_status": current_link_status,
+                        "link_capabilities": link_capabilities["downstream"][indexlist.index(j)],
+                        "error_time": error_time,
+                    }
+                    if slotnumbers[j] in tested_bdf_info:
+                        tested_bdf_info[slotnumbers[j]]["errors"].append(error_info)
+                    else:
+                        tested_bdf_info[slotnumbers[j]] = {
+                            "specific_bus_link": specific_bus_link,
+                            "errors": [error_info],
+                        }
+                    if kill == "y":
+                        with open("output.txt", "w") as file:
+                            for line in output_lines:
+                                file.write(line + "\n")
+                        pad_pos = functions.output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, "")
+                        pad_pos = functions.output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, "Link status does not match capabilities. Killing the program.")
+                        return tested_bdf_info
+
 
 def run_test(user_password, inputnum_loops, kill, bdf_list, window, window_offset_y, window_offset_x, window_height, window_width, pad_pos):
     pad_pos = functions.output_print(window, window_offset_y, window_offset_x, window_height, window_width, pad_pos, "Running the test...")
